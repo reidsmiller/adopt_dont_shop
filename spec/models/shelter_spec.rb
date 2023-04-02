@@ -67,5 +67,11 @@ RSpec.describe Shelter, type: :model do
         expect(@shelter_1.pet_count).to eq(3)
       end
     end
+
+    describe '.order_alphabetically_reverse' do
+      it 'returns shelters alphetically reversed' do
+        expect(Shelter.order_alphabetically_reverse).to eq([@shelter_2, @shelter_3, @shelter_1])
+      end
+    end
   end
 end
