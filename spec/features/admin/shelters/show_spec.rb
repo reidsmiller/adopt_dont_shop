@@ -7,14 +7,12 @@ RSpec.describe 'admin shelter show page' do
     end
 
     it "I can see the shelter's name and full address" do
-      visit "/shelters/#{@shelter_1.id}"
+      visit "/admin/shelters/#{@shelter_1.id}"
 
-      expect(page). to have_content(@shelter_1.name)
-      expect(page). to have_content(@shelter_1.city)
+      expect(page).to have_content(@shelter_1.name)
+      expect(page).to have_content(@shelter_1.city)
+      expect(page).to have_content(@shelter_1.rank)
+
     end
   end
-
-
-
-
 end
