@@ -115,14 +115,14 @@ RSpec.describe 'the apps show', type: :feature do
       expect(page).to have_content("Zues")
     end
 
-    # it "I see my pet searach is case insensitive" do
-    #   visit "/apps/#{@app_1.id}"
+    it "I see my pet searach is case insensitive" do
+      visit "/apps/#{@app_1.id}"
 
-    #   fill_in("Search by pet name:", with: "zU")
-    #   click_button("Search")
+      fill_in("search", with: "zU")
+      click_button("Search Pets")
 
-    #   expect(current_path).to eq("/apps/#{app_1.id}")
-    #   expect(page).to have_content("Zeus")
-    # end
+      expect(current_path).to eq("/apps/#{@app_1.id}")
+      expect(page).to have_content("Zues")
+    end
   end
 end
