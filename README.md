@@ -199,7 +199,7 @@ For example, if I search for "fluff", my search would match pets with names "Flu
 ```
 SQL Only Story
 
-For this story, you should write your queries in raw sql. You can use the ActiveRecord find_by_sql method to execute raw sql queries: https://guides.rubyonrails.org/active_record_querying.html#finding-by-sql
+For this story, you should write your queries in raw sql. You can use the ActiveRecord find_by_sql method to execute raw sql queries:
 
 10. Admin Shelters Index
 

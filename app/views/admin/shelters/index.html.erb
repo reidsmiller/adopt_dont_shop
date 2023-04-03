@@ -5,4 +5,11 @@
   <li><%= shelter.name %></li>
 <% end %>
 
-<h3 class="shelters_pending_apps">Shelters with Pending Applications</h3>
+<div id="shelters_pending_apps">
+  <h3>Shelters with Pending Applications</h3>
+  <ul>
+  <% @pending_shelters.each do |shelter| %>
+    <li><%= shelter.name %></li>
+  <% end %>
+  </ul>
+</div>
