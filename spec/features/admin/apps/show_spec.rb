@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/admin/applications/:id', type: :feature do
+RSpec.describe '/admin/apps/:id', type: :feature do
   describe 'As a visitor, when I visit an admin application show page' do
     before(:each) do
       @shelter_1 = Shelter.create!(name: 'Aurora shelter', city: 'Aurora, CO', foster_program: false, rank: 9)
@@ -18,7 +18,7 @@ RSpec.describe '/admin/applications/:id', type: :feature do
     end
 
     it 'For every pet that the application is for, I see a button to approve the application for that specific pet' do
-      visit "/admin/applications/#{@app_1.id}"
+      visit "/admin/apps/#{@app_1.id}"
 
       expect(page).to have_content("#{@app_1.name}'s Application for Adoption Approval")
       expect(page).to have_content("Street Address: #{@app_1.street_address}")
@@ -35,13 +35,14 @@ RSpec.describe '/admin/applications/:id', type: :feature do
     end
 
     it 'When I click an approve to adopt button I return to the admin app show page and instead of the button I see indicator pet has been approved' do
-      visit "/admin/applications/#{@app_1.id}"
+      visit "/admin/apps/#{@app_1.id}"
 
       click_button "Approve #{@pet_1.name} Adoption"
-
-      expect(current_path).to eq("/admin/applications/#{@app_1.id}")
+      save_and_open_page
+      expect(current_path).to eq("/admin/apps/#{@app_1.id}")
       expect(page).to_not have_button("Approve #{@pet_1.name} Adoption")
-      expect(page).to have_content("Approved")
+      expect(page).to have_content("Adoption Approved")
+      expect(page).to have_button("Approve #{@pet_2.name} Adoption")
     end
   end
 end

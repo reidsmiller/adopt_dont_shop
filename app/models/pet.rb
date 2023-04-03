@@ -12,4 +12,8 @@ class Pet < ApplicationRecord
   def self.adoptable
     where(adoptable: true)
   end
+
+  def approve_adoption
+    self.update(adoptable: false)
+  end
 end
