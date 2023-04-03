@@ -6,6 +6,15 @@ RSpec.describe App, type: :model do
     it {should have_many(:pets).through(:app_pets)}
   end
 
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should validate_presence_of(:street_address) }
+    it { should validate_presence_of(:city) }
+    it { should validate_presence_of(:state) }
+    it { should validate_presence_of(:zip_code) }
+    it { should validate_presence_of(:description) }
+  end
+
   describe 'instance methods' do
     before(:each) do
       @shelter_1 = Shelter.create!(foster_program: true, name: 'Boulder Humane Society', city: 'Boulder', rank: 3)

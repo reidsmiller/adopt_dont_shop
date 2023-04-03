@@ -1,0 +1,25 @@
+<h1><%= @app.name %>'s Application for Adoption Approval</h1>
+<ul>
+  <li>Street Address: <%= @app.street_address %></li>
+  <li>City: <%= @app.city %></li>
+  <li>State: <%= @app.state %></li>
+  <li>Zip Code: <%= @app.zip_code %></li>
+  <li>Description: <%= @app.description %></li>
+  <li>Applied to Adopt:</li>
+  <ol>
+    <% @pets.each do |pet| %>
+      <li>
+      <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
+      <% if pet.adoptable %>
+        <%= form_with url: "/admin/apps/#{@app.id}", method: :get, local: true do |form| %>
+          <%= form.hidden_field :pet_id, value: "#{pet.id}" %>
+          <%= form.submit "Approve #{pet.name} Adoption" %>
+        <% end %>
+      <% else %>
+        <p>Adoption Approved</p>
+      <% end %>
+      </li>
+    <% end %>
+  </ol>
+  <li>Application Status: <%= @app.status %></li>
+</ul>

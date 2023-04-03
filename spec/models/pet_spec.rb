@@ -39,6 +39,11 @@ RSpec.describe Pet, type: :model do
       it 'returns the shelter name for the given pet' do
         expect(@pet_3.shelter_name).to eq(@shelter_1.name)
       end
+
+      it 'can approve adoption and change adoptable to false' do
+        @pet_2.approve_adoption
+        expect(@pet_2.adoptable).to be false
+      end
     end
   end
 end

@@ -19,4 +19,5 @@ app_1 = App.create(name: 'John Travolta', street_address: '1234 Albany Lane', ci
 app_2 = App.create(name: 'Biggie Smalls', street_address: '2341 Huba Drive', city: 'Detroit', state: 'MI', zip_code: '76543', description: 'Im a dog person. Always wanted a dog. Holla.')
 
 AppPet.create(pet_id: pet_1.id, app_id: app_1.id)
+AppPet.create(pet_id: pet_2.id, app_id: app_1.id)
 AppPet.create(pet_id: pet_4.id, app_id: app_2.id)
