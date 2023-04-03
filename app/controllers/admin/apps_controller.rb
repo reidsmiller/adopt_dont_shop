@@ -2,8 +2,9 @@ class Admin::AppsController < ApplicationController
   def show
     @app = App.find(params[:id])
     @pets = @app.pets
-    if params[:pet_id].present?
-      Pet.find(params[:pet_id]).approve_adoption
+    @app_pets = AppPet.where('app_id = ?', params[:id])
+    if params[:commit].present?
+      AppPet.change_status(params)
     end
   end
 end

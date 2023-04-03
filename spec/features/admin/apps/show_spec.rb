@@ -15,6 +15,7 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       AppPet.create!(pet_id: @pet_1.id, app_id: @app_1.id)
       AppPet.create!(pet_id: @pet_2.id, app_id: @app_1.id)
       AppPet.create!(pet_id: @pet_4.id, app_id: @app_2.id)
+      AppPet.create!(pet_id: @pet_1.id, app_id: @app_2.id)
     end
 
     it 'For every pet that the application is for, I see a button to approve the application for that specific pet' do
@@ -41,7 +42,9 @@ RSpec.describe '/admin/apps/:id', type: :feature do
     it 'When I click an approve to adopt button I return to the admin app show page and instead of the button I see indicator pet has been approved' do
       visit "/admin/apps/#{@app_1.id}"
 
-      click_button "Approve #{@pet_1.name} Adoption"
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Approve"
+      end
       
       expect(current_path).to eq("/admin/apps/#{@app_1.id}")
       within("li#Admin_#{@pet_1.id}") do
@@ -50,6 +53,70 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       end
       within("li#Admin_#{@pet_2.id}") do
         expect(page).to have_button("Approve")
+      end
+    end
+
+    it 'For every pet that the application is for, I see a button to reject the application for that specific pet' do
+      visit "/admin/apps/#{@app_1.id}"
+
+      expect(page).to have_content("#{@app_1.name}'s Application for Adoption Approval")
+      expect(page).to have_content("Street Address: #{@app_1.street_address}")
+      expect(page).to have_content("City: #{@app_1.city}")
+      expect(page).to have_content("State: #{@app_1.state}")
+      expect(page).to have_content("Zip Code: #{@app_1.zip_code}")
+      expect(page).to have_content("Description: #{@app_1.description}")
+      expect(page).to have_content("Applied to Adopt:")
+      within("li#Admin_#{@pet_1.id}") do
+        expect(page).to have_content(@pet_1.name)
+        expect(page).to have_button("Reject")
+      end
+      within("li#Admin_#{@pet_2.id}") do
+        expect(page).to have_content(@pet_2.name)
+        expect(page).to have_button("Reject")
+      end
+      expect(page).to have_content("Application Status: #{@app_1.status}")
+    end
+
+    it 'When I click an approve to adopt button I return to the admin app show page and instead of the button I see indicator pet has been approved' do
+      visit "/admin/apps/#{@app_1.id}"
+
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Reject"
+      end
+      
+      expect(current_path).to eq("/admin/apps/#{@app_1.id}")
+      within("li#Admin_#{@pet_1.id}") do
+        expect(page).to_not have_button("Reject")
+        expect(page).to have_content("Adoption Rejected")
+      end
+      within("li#Admin_#{@pet_2.id}") do
+        expect(page).to have_button("Reject")
+      end
+    end
+
+    it 'When there are two applications for the same pet and one is approved for adoption on one app, it will not change the others' do
+      visit "/admin/apps/#{@app_1.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Approve"
+      end
+
+      visit "/admin/apps/#{@app_2.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        expect(page).to have_button("Approve")
+        expect(page).to have_button("Reject")
+      end
+    end
+
+    it 'When there are two applications for the same pet and one is rejected for adoption on one app, it will not change the other app' do
+      visit "/admin/apps/#{@app_1.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Reject"
+      end
+
+      visit "/admin/apps/#{@app_2.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        expect(page).to have_button("Approve")
+        expect(page).to have_button("Reject")
       end
     end
   end

@@ -10,13 +10,19 @@
     <% @pets.each do |pet| %>
       <li id="Admin_<%= pet.id %>">
       <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
-      <% if pet.adoptable %>
+      <% if @app_pets.where("pet_id = ?", pet.id).first.status == "Pending" %>
         <%= form_with url: "/admin/apps/#{@app.id}", method: :get, local: true do |form| %>
           <%= form.hidden_field :pet_id, value: "#{pet.id}" %>
-          <%= form.submit "Approve" %>
+          <%= form.submit 'Approve' %>
         <% end %>
-      <% else %>
+        <%= form_with url: "/admin/apps/#{@app.id}", method: :get, local: true do |form| %>
+          <%= form.hidden_field :pet_id, value: "#{pet.id}" %>
+          <%= form.submit 'Reject' %>
+        <% end %>
+      <% elsif @app_pets.where("pet_id = ?", pet.id).first.status == "Approved" %>
         <p>Adoption Approved</p>
+      <% elsif @app_pets.where("pet_id = ?", pet.id).first.status == "Rejected" %>
+        <p>Adoption Rejected</p>
       <% end %>
       </li>
     <% end %>
