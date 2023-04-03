@@ -83,5 +83,12 @@ RSpec.describe Shelter, type: :model do
         expect(Shelter.select_pending_shelters).to eq([@shelter_1])
       end
     end
+
+    describe '.info_by_shelter_id' do
+      it 'shows a shelters info by its id' do
+        params = {id: @shelter_1.id}
+        expect(Shelter.info_by_shelter_id(params)).to eq(@shelter_1)
+      end  
+    end
   end
 end

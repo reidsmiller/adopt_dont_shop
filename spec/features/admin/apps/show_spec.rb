@@ -38,7 +38,7 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       visit "/admin/apps/#{@app_1.id}"
 
       click_button "Approve #{@pet_1.name} Adoption"
-      save_and_open_page
+
       expect(current_path).to eq("/admin/apps/#{@app_1.id}")
       expect(page).to_not have_button("Approve #{@pet_1.name} Adoption")
       expect(page).to have_content("Adoption Approved")

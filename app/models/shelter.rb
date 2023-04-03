@@ -40,4 +40,8 @@ class Shelter < ApplicationRecord
   def shelter_pets_filtered_by_age(age_filter)
     adoptable_pets.where('age >= ?', age_filter)
   end
+
+  def self.info_by_shelter_id(params)
+    find_by_sql("SELECT * FROM shelters WHERE id = #{params[:id]}").first
+  end
 end
