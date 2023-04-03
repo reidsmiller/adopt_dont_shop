@@ -27,10 +27,14 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       expect(page).to have_content("Zip Code: #{@app_1.zip_code}")
       expect(page).to have_content("Description: #{@app_1.description}")
       expect(page).to have_content("Applied to Adopt:")
-      expect(page).to have_content(@pet_1.name)
-      expect(page).to have_button("Approve #{@pet_1.name} Adoption")
-      expect(page).to have_content(@pet_2.name)
-      expect(page).to have_button("Approve #{@pet_2.name} Adoption")
+      within("li#Admin_#{@pet_1.id}") do
+        expect(page).to have_content(@pet_1.name)
+        expect(page).to have_button("Approve")
+      end
+      within("li#Admin_#{@pet_2.id}") do
+        expect(page).to have_content(@pet_2.name)
+        expect(page).to have_button("Approve")
+      end
       expect(page).to have_content("Application Status: #{@app_1.status}")
     end
 
@@ -38,11 +42,15 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       visit "/admin/apps/#{@app_1.id}"
 
       click_button "Approve #{@pet_1.name} Adoption"
-      save_and_open_page
+      
       expect(current_path).to eq("/admin/apps/#{@app_1.id}")
-      expect(page).to_not have_button("Approve #{@pet_1.name} Adoption")
-      expect(page).to have_content("Adoption Approved")
-      expect(page).to have_button("Approve #{@pet_2.name} Adoption")
+      within("li#Admin_#{@pet_1.id}") do
+        expect(page).to_not have_button("Approve")
+        expect(page).to have_content("Adoption Approved")
+      end
+      within("li#Admin_#{@pet_2.id}") do
+        expect(page).to have_button("Approve")
+      end
     end
   end
 end

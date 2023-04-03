@@ -8,12 +8,12 @@
   <li>Applied to Adopt:</li>
   <ol>
     <% @pets.each do |pet| %>
-      <li>
+      <li id="Admin_<%= pet.id %>">
       <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
       <% if pet.adoptable %>
         <%= form_with url: "/admin/apps/#{@app.id}", method: :get, local: true do |form| %>
           <%= form.hidden_field :pet_id, value: "#{pet.id}" %>
-          <%= form.submit "Approve #{pet.name} Adoption" %>
+          <%= form.submit "Approve" %>
         <% end %>
       <% else %>
         <p>Adoption Approved</p>
