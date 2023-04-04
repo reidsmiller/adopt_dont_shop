@@ -22,13 +22,13 @@ RSpec.describe AppPet, type: :model do
       @app_pet_3 = AppPet.create!(pet_id: @pet_4.id, app_id: @app_2.id)
     end
 
-    xit 'can change status based on parameter' do
+    it 'can change status based on parameter' do
       params_1 = {commit: "Approve", pet_id: @app_pet_1.pet_id, id: @app_pet_1.app_id}
       params_2 = {commit: "Reject", pet_id: @app_pet_2.pet_id, id: @app_pet_2.app_id}
-      AppPet.change_status(params_1)
-      AppPet.change_status(params_2)
-      expect(@app_pet_1.status).to eq('Approved')
-      expect(@app_pet_2.status).to eq('Rejected')
+      @updated_app_pet_1 = AppPet.change_status(params_1)
+      @updated_app_pet_2 = AppPet.change_status(params_2)
+      expect(@updated_app_pet_1.status).to eq('Approved')
+      expect(@updated_app_pet_2.status).to eq('Rejected')
     end
   end
 end

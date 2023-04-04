@@ -9,5 +9,6 @@ class AppPet < ApplicationRecord
     elsif params[:commit] == "Reject"
       app_pet.update(status: "Rejected")
     end
+    app_pet
   end
 end
