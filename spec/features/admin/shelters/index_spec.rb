@@ -36,6 +36,15 @@ RSpec.describe '/admin/shelters', type: :feature do
       end
     end
 
+    it 'I see shelter name with a link pointed to shelters admin show page' do
+      visit '/admin/shelters'
+
+      expect(page).to have_link('Aurora shelter', href: "/admin/shelters/#{@shelter_1.id}")
+      
+      click_link("Aurora shelter")
+
+      expect(page).to have_current_path("/admin/shelters/#{@shelter_1.id}")
+
     it 'I see all shelters listed aplhabetically' do
       visit '/admin/shelters'
 
