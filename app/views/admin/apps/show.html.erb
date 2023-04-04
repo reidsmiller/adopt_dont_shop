@@ -1,5 +1,6 @@
 <h1><%= @app.name %>'s Application for Adoption Approval</h1>
 <ul>
+  <li>Application Status: <%= @app.status %></li>
   <li>Street Address: <%= @app.street_address %></li>
   <li>City: <%= @app.city %></li>
   <li>State: <%= @app.state %></li>
@@ -27,5 +28,4 @@
       </li>
     <% end %>
   </ol>
-  <li>Application Status: <%= @app.status %></li>
 </ul>
