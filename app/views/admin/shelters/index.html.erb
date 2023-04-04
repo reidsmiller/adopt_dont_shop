@@ -2,7 +2,7 @@
 <h3>All Shelters</h3>
 <ul>
 <% @shelters.each do |shelter| %>
-  <li><%= shelter.name %></li>
+  <li><%= link_to(shelter.name, "/admin/shelters/#{shelter.id}")%></li>
 <% end %>
 
 <div id="shelters_pending_apps">
