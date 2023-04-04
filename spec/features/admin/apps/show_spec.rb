@@ -124,7 +124,7 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       visit "/admin/apps/#{@app_1.id}"
 
       expect(page).to have_content('Application Status: Pending')
-      expect(page).to_not have_content()
+      expect(page).to_not have_content('Application Status: Approved')
 
       within("li#Admin_#{@pet_1.id}") do
         click_button "Approve"
@@ -135,6 +135,7 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       end
 
       expect(page).to have_content('Application Status: Approved')
+      expect(page).to_not have_content('Application Status: Pending')
     end
   end
 end
