@@ -44,4 +44,8 @@ class Shelter < ApplicationRecord
   def self.info_by_shelter_id(params)
     find_by_sql("SELECT * FROM shelters WHERE id = #{params[:id]}").first
   end
+
+  def self.order_alphabetically
+    order(name: :asc)
+  end
 end

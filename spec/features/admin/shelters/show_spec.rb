@@ -12,7 +12,6 @@ RSpec.describe 'admin shelter show page' do
       expect(page).to have_content(@shelter_1.name)
       expect(page).to have_content(@shelter_1.city)
       expect(page).to have_content(@shelter_1.rank)
-
     end
   end
 end
