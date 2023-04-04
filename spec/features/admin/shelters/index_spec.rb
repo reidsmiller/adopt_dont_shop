@@ -29,9 +29,22 @@ RSpec.describe '/admin/shelters', type: :feature do
 
       expect(page).to have_content('Shelters with Pending Applications')
       within('div#shelters_pending_apps') do
-        expect(page).to have_content(@shelter_1.name)
-        expect(page).to_not have_content(@shelter_2.name)
+      expect(page).to have_content(@shelter_1.name)
+      expect(page).to_not have_content(@shelter_2.name)
       end
+    end
+
+    it 'I see all shelters listed aplhabetically' do
+      @app_3 = App.create!(name: 'Johnny Luke', street_address: '1234 Spike Rd.', city: 'Spring', state: 'CO', zip_code: '80554', description: 'I like dogs, you have dogs, give me a dog.', status: "Pending")
+      AppPet.create!(pet_id: @pet_4.id, app_id: @app_3.id)
+
+      visit '/admin/shelters'
+      # require 'pry';binding.pry
+
+      aurora = find("#shelter-#{@shelter_1.id}")
+      rgv = find("#shelter-#{@shelter_2.id}")
+
+      expect(aurora).to appear_before(rgv)
     end
   end
 end
