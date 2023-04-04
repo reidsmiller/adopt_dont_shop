@@ -12,8 +12,10 @@ RSpec.describe '/admin/shelters', type: :feature do
       @pet_4 = @shelter_2.pets.create!(adoptable: true, age: 3, breed: 'doberman', name: 'Lobster')
       @app_1 = App.create!(name: 'John Travolta', street_address: '1234 Albany Lane', city: 'Boulder', state: 'CO', zip_code: '80534', description: 'I like dogs, you have dogs, give me a dog.', status: "Pending")
       @app_2 = App.create!(name: 'Biggie Smalls', street_address: '2341 Huba Drive', city: 'Detroit', state: 'MI', zip_code: '76543', description: 'Im a dog person. Always wanted a dog. Holla.')
+      @app_3 = App.create!(name: 'Johnny Luke', street_address: '1234 Spike Rd.', city: 'Spring', state: 'CO', zip_code: '80554', description: 'I like dogs, you have dogs, give me a dog.', status: "Pending")
       AppPet.create!(pet_id: @pet_1.id, app_id: @app_1.id)
       AppPet.create!(pet_id: @pet_4.id, app_id: @app_2.id)
+      AppPet.create!(pet_id: @pet_4.id, app_id: @app_3.id)
     end
 
     it '#SQL ONLY I see all the shelters in the system listed in reverse alphabetical order by name' do
@@ -29,17 +31,13 @@ RSpec.describe '/admin/shelters', type: :feature do
 
       expect(page).to have_content('Shelters with Pending Applications')
       within('div#shelters_pending_apps') do
-      expect(page).to have_content(@shelter_1.name)
-      expect(page).to_not have_content(@shelter_2.name)
+        expect(page).to have_content(@shelter_1.name)
+        expect(page).to_not have_content(@shelter_3.name)
       end
     end
 
     it 'I see all shelters listed aplhabetically' do
-      @app_3 = App.create!(name: 'Johnny Luke', street_address: '1234 Spike Rd.', city: 'Spring', state: 'CO', zip_code: '80554', description: 'I like dogs, you have dogs, give me a dog.', status: "Pending")
-      AppPet.create!(pet_id: @pet_4.id, app_id: @app_3.id)
-
       visit '/admin/shelters'
-      # require 'pry';binding.pry
 
       aurora = find("#shelter-#{@shelter_1.id}")
       rgv = find("#shelter-#{@shelter_2.id}")
