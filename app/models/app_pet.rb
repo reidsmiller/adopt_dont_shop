@@ -11,4 +11,8 @@ class AppPet < ApplicationRecord
     end
     app_pet
   end
+
+  def self.match_pet_to_app_pet(pet_id)
+    where("pet_id = ?", pet_id).first.status
+  end
 end

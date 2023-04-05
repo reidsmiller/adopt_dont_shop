@@ -132,6 +132,7 @@ RSpec.describe '/admin/apps/:id', type: :feature do
 
       within("li#Admin_#{@pet_2.id}") do
         click_button "Approve"
+        require 'pry'; binding.pry
       end
 
       expect(page).to have_content('Application Status: Approved')

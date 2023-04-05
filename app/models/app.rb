@@ -11,4 +11,14 @@ class App < ApplicationRecord
   def apply_adopt(p_input_id)
     AppPet.create(app_id: id, pet_id: p_input_id)
   end
+
+  def check_and_update_status
+    app_pets = AppPet.where('app_id = ?', id)
+    total_app_pets = app_pets.count
+    approved_app_pets = app_pets.where(status: "Approved").count
+    if total_app_pets == approved_app_pets
+      self.update(status: 'Approved')
+    end
+    return self
+  end
 end
