@@ -1,5 +1,6 @@
 <h1><%= @app.name %>'s Application for Adoption Approval</h1>
 <ul>
+  <li>Application Status: <%= @app.status %></li>
   <li>Street Address: <%= @app.street_address %></li>
   <li>City: <%= @app.city %></li>
   <li>State: <%= @app.state %></li>
@@ -8,18 +9,20 @@
   <li>Applied to Adopt:</li>
   <ol>
     <% @pets.each do |pet| %>
-      <li>
+      <li id="Admin_<%= pet.id %>">
       <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
-      <% if pet.adoptable %>
-        <%= form_with url: "/admin/apps/#{@app.id}", method: :get, local: true do |form| %>
-          <%= form.hidden_field :pet_id, value: "#{pet.id}" %>
-          <%= form.submit "Approve #{pet.name} Adoption" %>
-        <% end %>
-      <% else %>
+      <% if @app_pets.match_pet_to_app_pet(pet.id) == "Pending" %>
+        <%= render partial: 'form', locals: {pet_id: pet.id, button_text: 'Approve'} %>
+        <%= render partial: 'form', locals: {pet_id: pet.id, button_text: 'Reject'} %>
+      <% elsif @app_pets.match_pet_to_app_pet(pet.id) == "Approved" %>
         <p>Adoption Approved</p>
+      <% elsif @app_pets.match_pet_to_app_pet(pet.id) == "Rejected" %>
+        <p>Adoption Rejected</p>
+      <% elsif @app_pets.match_pet_to_app_pet(pet.id) == "Adopted" %>
+        <p>Pet Approved for Adoption</p>
+        <%= render partial: 'form', locals: {pet_id: pet.id, button_text: 'Reject'} %>
       <% end %>
       </li>
     <% end %>
   </ol>
-  <li>Application Status: <%= @app.status %></li>
 </ul>
