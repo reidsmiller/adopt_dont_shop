@@ -43,5 +43,19 @@ RSpec.describe App, type: :model do
       @app_1 = App.find(@app_1.id)
       expect(@app_1.status).to eq("Approved")
     end
+
+    it 'can check for one or more rejections and approvals and change status to rejected' do
+      app_pet_1 = AppPet.create(pet_id: @pet_1.id, app_id: @app_1.id, status: "Rejected")
+      app_pet_2 = AppPet.create(pet_id: @pet_2.id, app_id: @app_1.id)
+
+      @app_1.check_and_update_status
+      @app_1 = App.find(@app_1.id)
+      expect(@app_1.status).to eq("Pending")
+
+      app_pet_2.update(status: "Approved")
+      @app_1.check_and_update_status
+      @app_1 = App.find(@app_1.id)
+      expect(@app_1.status).to eq("Rejected")
+    end
   end
 end

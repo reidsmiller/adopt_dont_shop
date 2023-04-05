@@ -16,8 +16,11 @@ class App < ApplicationRecord
     app_pets = AppPet.where('app_id = ?', id)
     total_app_pets = app_pets.count
     approved_app_pets = app_pets.where(status: "Approved").count
+    rejected_app_pets = app_pets.where(status: "Rejected").count
     if total_app_pets == approved_app_pets
       self.update(status: 'Approved')
+    elsif rejected_app_pets > 0 && rejected_app_pets + approved_app_pets == total_app_pets
+      self.update(status: 'Rejected')
     end
   end
 end

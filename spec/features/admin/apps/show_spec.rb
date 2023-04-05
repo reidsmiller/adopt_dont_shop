@@ -130,14 +130,35 @@ RSpec.describe '/admin/apps/:id', type: :feature do
         click_button "Approve"
       end
 
+      expect(page).to have_content('Application Status: Pending')
+      expect(page).to_not have_content('Application Status: Approved')
 
       within("li#Admin_#{@pet_2.id}") do
         click_button "Approve"
       end
 
-      # visit "/admin/apps/#{@app_1.id}"
-
       expect(page).to have_content('Application Status: Approved')
+      expect(page).to_not have_content('Application Status: Pending')
+    end
+
+    it 'If I reject one or more pets for the application and all others are approved I see the applications status as Rejected' do
+      visit "/admin/apps/#{@app_1.id}"
+
+      expect(page).to have_content('Application Status: Pending')
+      expect(page).to_not have_content('Application Status: Rejectd')
+
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Reject"
+      end
+
+      expect(page).to have_content('Application Status: Pending')
+      expect(page).to_not have_content('Application Status: Rejectd')
+
+      within("li#Admin_#{@pet_2.id}") do
+        click_button "Approve"
+      end
+
+      expect(page).to have_content('Application Status: Rejected')
       expect(page).to_not have_content('Application Status: Pending')
     end
   end
