@@ -40,4 +40,21 @@ class Shelter < ApplicationRecord
   def shelter_pets_filtered_by_age(age_filter)
     adoptable_pets.where('age >= ?', age_filter)
   end
+
+  def self.info_by_shelter_id(params)
+    find_by_sql("SELECT * FROM shelters WHERE id = #{params[:id]}").first
+  end
+
+  def avg_pet_age
+    adoptable_pets = self.pets.where(adoptable: true)
+    adoptable_pets.average(:age)
+  end
+
+  def self.order_alphabetically
+    order(name: :asc)
+  end
+
+  def count_adp_pets
+    pets.where(adoptable: true).count
+  end
 end
