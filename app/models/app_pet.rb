@@ -10,4 +10,12 @@ class AppPet < ApplicationRecord
       app_pet.update(status: "Rejected")
     end
   end
+
+  def self.match_pet_to_app_pet(pet_id)
+    if Pet.find(pet_id).adoptable == true
+      where("pet_id = ?", pet_id).first.status
+    else
+      return "Adopted"
+    end
+  end
 end

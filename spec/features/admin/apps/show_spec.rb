@@ -119,5 +119,80 @@ RSpec.describe '/admin/apps/:id', type: :feature do
         expect(page).to have_button("Reject")
       end
     end
+
+    it 'and I approve all pets for application I am taken back to show page and see app status is Approved' do
+      visit "/admin/apps/#{@app_1.id}"
+
+      expect(page).to have_content('Application Status: Pending')
+      expect(page).to_not have_content('Application Status: Approved')
+
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Approve"
+      end
+
+      expect(page).to have_content('Application Status: Pending')
+      expect(page).to_not have_content('Application Status: Approved')
+
+      within("li#Admin_#{@pet_2.id}") do
+        click_button "Approve"
+      end
+
+      expect(page).to have_content('Application Status: Approved')
+      expect(page).to_not have_content('Application Status: Pending')
+    end
+
+    it 'If I reject one or more pets for the application and all others are approved I see the applications status as Rejected' do
+      visit "/admin/apps/#{@app_1.id}"
+
+      expect(page).to have_content('Application Status: Pending')
+      expect(page).to_not have_content('Application Status: Rejectd')
+
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Reject"
+      end
+
+      expect(page).to have_content('Application Status: Pending')
+      expect(page).to_not have_content('Application Status: Rejectd')
+
+      within("li#Admin_#{@pet_2.id}") do
+        click_button "Approve"
+      end
+
+      expect(page).to have_content('Application Status: Rejected')
+      expect(page).to_not have_content('Application Status: Pending')
+    end
+
+    it 'When I approve all pets on a page and visit the show page for those pets I see they are no longer adoptable' do
+      visit "/pets/#{@pet_1.id}"
+      expect(page).to have_content("Adoptable: true")
+      
+      visit "/admin/apps/#{@app_1.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Approve"
+      end
+      within("li#Admin_#{@pet_2.id}") do
+        click_button "Approve"
+      end
+
+      visit "/pets/#{@pet_1.id}"
+      expect(page).to have_content("Adoptable: false")
+    end
+
+    it 'When a pet has an approved appliation they will not be adoptable on another pending application' do
+      visit "/admin/apps/#{@app_1.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Approve"
+      end
+      within("li#Admin_#{@pet_2.id}") do
+        click_button "Approve"
+      end
+
+      visit "/admin/apps/#{@app_2.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        expect(page).to_not have_button("Approve")
+        expect(page).to have_content("Pet Approved for Adoption")
+        expect(page).to have_button("Reject")
+      end
+    end
   end
 end
