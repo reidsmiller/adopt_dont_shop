@@ -120,7 +120,7 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       end
     end
 
-    xit 'and I approve all pets for application I am taken back to show page and see app status is Approved' do
+    it 'and I approve all pets for application I am taken back to show page and see app status is Approved' do
       visit "/admin/apps/#{@app_1.id}"
 
       expect(page).to have_content('Application Status: Pending')
@@ -130,10 +130,12 @@ RSpec.describe '/admin/apps/:id', type: :feature do
         click_button "Approve"
       end
 
+
       within("li#Admin_#{@pet_2.id}") do
         click_button "Approve"
-        require 'pry'; binding.pry
       end
+
+      # visit "/admin/apps/#{@app_1.id}"
 
       expect(page).to have_content('Application Status: Approved')
       expect(page).to_not have_content('Application Status: Pending')

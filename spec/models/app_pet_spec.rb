@@ -25,10 +25,12 @@ RSpec.describe AppPet, type: :model do
     it 'can change status based on parameter' do
       params_1 = {commit: "Approve", pet_id: @app_pet_1.pet_id, id: @app_pet_1.app_id}
       params_2 = {commit: "Reject", pet_id: @app_pet_2.pet_id, id: @app_pet_2.app_id}
-      @updated_app_pet_1 = AppPet.change_status(params_1)
-      @updated_app_pet_2 = AppPet.change_status(params_2)
-      expect(@updated_app_pet_1.status).to eq('Approved')
-      expect(@updated_app_pet_2.status).to eq('Rejected')
+      AppPet.change_status(params_1)
+      updated_app_pet_1 = AppPet.find(@app_pet_1.id)
+      AppPet.change_status(params_2)
+      updated_app_pet_2 = AppPet.find(@app_pet_2.id)
+      expect(updated_app_pet_1.status).to eq('Approved')
+      expect(updated_app_pet_2.status).to eq('Rejected')
     end
   end
 end

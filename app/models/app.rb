@@ -19,6 +19,5 @@ class App < ApplicationRecord
     if total_app_pets == approved_app_pets
       self.update(status: 'Approved')
     end
-    return self
   end
 end
