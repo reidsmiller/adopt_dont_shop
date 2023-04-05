@@ -12,6 +12,10 @@ class AppPet < ApplicationRecord
   end
 
   def self.match_pet_to_app_pet(pet_id)
-    where("pet_id = ?", pet_id).first.status
+    if Pet.find(pet_id).adoptable == true
+      where("pet_id = ?", pet_id).first.status
+    else
+      return "Adopted"
+    end
   end
 end

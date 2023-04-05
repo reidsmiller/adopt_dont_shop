@@ -18,6 +18,9 @@
         <p>Adoption Approved</p>
       <% elsif @app_pets.match_pet_to_app_pet(pet.id) == "Rejected" %>
         <p>Adoption Rejected</p>
+      <% elsif @app_pets.match_pet_to_app_pet(pet.id) == "Adopted" %>
+        <p>Pet Approved for Adoption</p>
+        <%= render partial: 'form', locals: {pet_id: pet.id, button_text: 'Reject'} %>
       <% end %>
       </li>
     <% end %>
