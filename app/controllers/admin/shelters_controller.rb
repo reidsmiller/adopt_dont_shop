@@ -7,8 +7,7 @@ class Admin::SheltersController < ApplicationController
   def show
     @shelter = Shelter.info_by_shelter_id(params)    
     @pets_avg = @shelter.avg_pet_age
-    # require 'pry';binding.pry
-
+    @adp_pets_count = @shelter.count_adp_pets
   end
 
 
