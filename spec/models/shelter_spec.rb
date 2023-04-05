@@ -90,5 +90,11 @@ RSpec.describe Shelter, type: :model do
         expect(Shelter.info_by_shelter_id(params)).to eq(@shelter_1)
       end  
     end
+
+    describe '.avg_pet_age' do
+      it 'shows statistics for the average pet age' do
+        expect(@shelter_1.avg_pet_age).to eq(4)
+      end
+    end
   end
 end

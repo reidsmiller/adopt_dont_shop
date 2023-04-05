@@ -44,4 +44,9 @@ class Shelter < ApplicationRecord
   def self.info_by_shelter_id(params)
     find_by_sql("SELECT * FROM shelters WHERE id = #{params[:id]}").first
   end
+
+  def avg_pet_age
+    adoptable_pets = self.pets.where(adoptable: true)
+    adoptable_pets.average(:age)
+  end
 end
