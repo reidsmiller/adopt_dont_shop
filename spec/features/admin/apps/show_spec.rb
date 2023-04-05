@@ -163,6 +163,9 @@ RSpec.describe '/admin/apps/:id', type: :feature do
     end
 
     it 'When I approve all pets on a page and visit the show page for those pets I see they are no longer adoptable' do
+      visit "/pets/#{@pet_1.id}"
+      expect(page).to have_content("Adoptable: true")
+      
       visit "/admin/apps/#{@app_1.id}"
       within("li#Admin_#{@pet_1.id}") do
         click_button "Approve"
@@ -173,6 +176,23 @@ RSpec.describe '/admin/apps/:id', type: :feature do
 
       visit "/pets/#{@pet_1.id}"
       expect(page).to have_content("Adoptable: false")
+    end
+
+    it 'When a pet has an approved appliation they will not be adoptable on another pending application' do
+      visit "/admin/apps/#{@app_1.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        click_button "Approve"
+      end
+      within("li#Admin_#{@pet_2.id}") do
+        click_button "Approve"
+      end
+
+      visit "/admin/apps/#{@app_2.id}"
+      within("li#Admin_#{@pet_1.id}") do
+        expect(page).to_not have_button("Approve")
+        expect(page).to have_content("Pet Approved for Adoption")
+        expect(page).to have_button("Reject")
+      end
     end
   end
 end
