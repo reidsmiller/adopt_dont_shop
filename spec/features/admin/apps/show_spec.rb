@@ -172,7 +172,7 @@ RSpec.describe '/admin/apps/:id', type: :feature do
       end
 
       visit "/pets/#{@pet_1.id}"
-      expect(page).to have_content("Adoptable: False")
+      expect(page).to have_content("Adoptable: false")
     end
   end
 end

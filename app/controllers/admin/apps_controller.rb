@@ -8,6 +8,7 @@ class Admin::AppsController < ApplicationController
   def update
     AppPet.change_status(params)
     App.find(params[:id]).check_and_update_status
+    Pet.update_adoption_status(params)
     redirect_to "/admin/apps/#{params[:id]}"
   end
 end
