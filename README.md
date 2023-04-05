@@ -199,7 +199,7 @@ For example, if I search for "fluff", my search would match pets with names "Flu
 ```
 SQL Only Story
 
-For this story, you should write your queries in raw sql. You can use the ActiveRecord find_by_sql method to execute raw sql queries: https://guides.rubyonrails.org/active_record_querying.html#finding-by-sql
+For this story, you should write your queries in raw sql. You can use the ActiveRecord find_by_sql method to execute raw sql queries:
 
 10. Admin Shelters Index
 
@@ -315,7 +315,7 @@ Then I see that those pets are no longer "adoptable"
 
 As a visitor
 When a pet has an "Approved" application on them
-And when the pet has a "Pending" application on them
+And when the pet has another "Pending" application on them
 And I visit the admin application show page for the pending application
 Then next to the pet I do not see a button to approve them
 And instead I see a message that this pet has been approved for adoption

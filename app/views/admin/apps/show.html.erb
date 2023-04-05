@@ -1,0 +1,28 @@
+<h1><%= @app.name %>'s Application for Adoption Approval</h1>
+<ul>
+  <li>Application Status: <%= @app.status %></li>
+  <li>Street Address: <%= @app.street_address %></li>
+  <li>City: <%= @app.city %></li>
+  <li>State: <%= @app.state %></li>
+  <li>Zip Code: <%= @app.zip_code %></li>
+  <li>Description: <%= @app.description %></li>
+  <li>Applied to Adopt:</li>
+  <ol>
+    <% @pets.each do |pet| %>
+      <li id="Admin_<%= pet.id %>">
+      <%= link_to "#{pet.name}", "/pets/#{pet.id}" %>
+      <% if @app_pets.match_pet_to_app_pet(pet.id) == "Pending" %>
+        <%= render partial: 'form', locals: {pet_id: pet.id, button_text: 'Approve'} %>
+        <%= render partial: 'form', locals: {pet_id: pet.id, button_text: 'Reject'} %>
+      <% elsif @app_pets.match_pet_to_app_pet(pet.id) == "Approved" %>
+        <p>Adoption Approved</p>
+      <% elsif @app_pets.match_pet_to_app_pet(pet.id) == "Rejected" %>
+        <p>Adoption Rejected</p>
+      <% elsif @app_pets.match_pet_to_app_pet(pet.id) == "Adopted" %>
+        <p>Pet Approved for Adoption</p>
+        <%= render partial: 'form', locals: {pet_id: pet.id, button_text: 'Reject'} %>
+      <% end %>
+      </li>
+    <% end %>
+  </ol>
+</ul>
