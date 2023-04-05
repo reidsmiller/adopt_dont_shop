@@ -44,6 +44,7 @@ RSpec.describe '/admin/shelters', type: :feature do
       click_link("Aurora shelter")
 
       expect(page).to have_current_path("/admin/shelters/#{@shelter_1.id}")
+    end
 
     it 'I see all shelters listed aplhabetically' do
       visit '/admin/shelters'
