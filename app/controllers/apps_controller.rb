@@ -7,8 +7,6 @@ class AppsController < ApplicationController
       @searched_pets = Pet.search(params[:search])
     elsif params[:pet_id].present?
       @app.apply_adopt(params[:pet_id])
-    elsif params[:application_text].present?
-      @app.status = "Pending"
     end
     @app_submitted = true if @app.status == "Pending"
   end
@@ -25,6 +23,14 @@ class AppsController < ApplicationController
       flash[:notice] = "Application not created: Required information missing."
       render :new
     end
+  end
+
+  def update
+    app = App.find(params[:id])
+    if params[:application_text].present?
+      app.update(status: "Pending")
+    end
+    redirect_to "/apps/#{params[:id]}"
   end
 
 
